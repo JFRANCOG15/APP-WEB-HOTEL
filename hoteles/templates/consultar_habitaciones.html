@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    <title>
+        Consultar Habitaciones
+    </title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+</head>
+<body>
+    <header>
+    <div class="container nav">
+      <a class="logo"  href="{{ url_for('index') }}" aria-label="Hotel JS">
+        <span class="logo-badge" aria-hidden="true">
+          <img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia">
+        </span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" aria-label="Abrir menú" />
+      <label for="nav-toggle" class="hamburger" aria-hidden="true"><span></span></label>
+
+     <div class="menu" role="navigation" aria-label="principal">
+        <a href="{{ url_for('crear_habitacion') }}">Crear Habitacion</a>
+        <a href="{{ url_for('listar_clientes')}}">Registro Clientes</a>
+        <a href="{{ url_for('Tipo_habitacion')}}">Tipo habitaciones</a>
+        <a href="{{ url_for('consultar_habitaciones')}}">Consultar habitaciones</a>
+        <a href="{{ url_for('listar_ciudades')}}">Ciudades</a>
+        <a href="{{ url_for('crear_sucursal')}}">Sucursales</a>
+        <a href="{{ url_for('consultar_reservas')}}">Reservas</a>
+        <a href="{{ url_for('crear_cliente')}}">Crear Cliente</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-primary">Cerrar Sesion</a>
+      </div>
+    </div>
+  </header>
+
+    <h1>Consultar Habitaciones</h1>
+
+    <div>
+      <form class="booking" method="get" action="{{ url_for('consultar_habitaciones') }}">
+            <div class="field"><label for="sucursal">Sucursal</label>
+            <select name="sucursal" id="sucursal" class="form-select mb-2">
+            <option value="">Seleccione una sucursal</option>
+            {% for s in sucursales %}
+            <option value="{{ s.Id_sucursal }}" 
+                {% if request.args.get('sucursales') == (s.Id_sucursal|string) %}selected{% endif %}>
+                {{ s.Nombre_sucursal }}
+            </option>
+            {% endfor %}
+            </select>
+            </div>
+            <div class="field"><label for="tipo">Tipo Habitacion</label>
+            <select name="tipo" id="tipo_habitacion" class="form-select mb-2">
+            <option value="">Seleccione tipo de habitación</option>
+            {% for t in tipo %}
+            <option value="{{ t.Id_tipo }}" 
+                {% if request.args.get('tipo_habitacion') == (t.Id_tipo|string) %}selected{% endif %}>
+                {{ t.Nombre_tipo }}
+            </option>
+            {% endfor %}
+            </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+          </form>
+    </div>
+
+<div style="overflow-x:auto;">
+    <table id="clientes"> 
+    <tr class="cliente">
+        <th class="nombre">ID</th>
+        <th class="nombre">Habitacion</th>
+        <th class="nombre">Telefono</th>
+        <th class="nombre">Tipo</th>
+        <th class="nombre">Capacidad</th>
+        <th class="nombre">precio</th>
+        <th class="nombre">Sucursal</th>
+        <th class="nombre">Ciudad</th>
+    </tr>
+    {% for hab in habitaciones %}
+    <tr class="cliente">
+        <td class="datos">{{ hab.Id_habitacion }}</td>
+        <td class="datos">{{ hab.Nombre_habitacion }}</td>
+        <td class="datos">{{ hab.telefono_habitacion }}</td>
+        <td class="datos">{{ hab.Nombre_tipo }}</td>
+        <td class="datos">{{ hab.capacidad}}</td>
+        <td class="datos">{{ hab.Precio}}</td>
+        <td class="datos">{{ hab.Nombre_sucursal}}</td>
+        <td class="datos">{{ hab.Nombre_ciudades}}</td>
+    </tr>
+    {% endfor %}
+
+    </table>
+</div>
+
+
+    <nav id=""menu>
+            <a href="{{ url_for('index')}}">Volver al inicio</a>
+        </nav>
+    <footer>
+    <div class="container foot-grid">
+      <div>
+        <a class="logo" href="#inicio">
+          <span class="logo-badge" aria-hidden="true"><img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia"></span>
+          Hotel JS
+        </a>
+        <p style="margin-top:10px;">© <span id="year"></span> Hotel JS. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <strong>Políticas</strong>
+        <p class="subtle">Cancelación flexible • Check‑in 24/7 • Pet‑friendly.</p>
+      </div>
+      <div>
+        <strong>Síguenos</strong>
+        <p class="subtle">Instagram • Facebook • TikTok</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<html>
+
+<head>
+    <title>
+        Reservas
+    </title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+</head>
+<body>
+    <header>
+    <div class="container nav">
+      <a class="logo"  href="{{ url_for('index') }}" aria-label="Hotel JS">
+        <span class="logo-badge" aria-hidden="true">
+          <img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia">
+        </span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" aria-label="Abrir menú" />
+      <label for="nav-toggle" class="hamburger" aria-hidden="true"><span></span></label>
+
+      <div class="menu" role="navigation" aria-label="principal">
+        <a href="{{ url_for('crear_habitacion') }}">Crear Habitacion</a>
+        <a href="{{ url_for('listar_clientes')}}">Registro Clientes</a>
+        <a href="{{ url_for('Tipo_habitacion')}}">Tipo habitaciones</a>
+        <a href="{{ url_for('consultar_habitaciones')}}">Consultar habitaciones</a>
+        <a href="{{ url_for('listar_ciudades')}}">Ciudades</a>
+        <a href="{{ url_for('crear_sucursal')}}">Sucursales</a>
+        <a href="{{ url_for('crear_reserva')}}">Crear Reserva</a>
+        <a href="{{ url_for('crear_cliente')}}">Crear Cliente</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-primary">Cerrar Sesion</a>
+      </div>
+    </div>
+  </header>
+
+    <h1>Reservas</h1>
+    <div>
+        <form class="booking" method="get" action="{{ url_for('consultar_reservas') }}">
+
+            <div class="field"><input id="numero documento" type="text" name="Numero_documento" placeholder="Numero Documento" required 
+              value="{{ request.args.get('Numero_documento','') }}" onchange=this.form.submit()>
+            </div>
+
+
+            <div class="field"><label>Tipo Habitacion</label>
+            <select name="Tipo_habitacion" id="sucursal" class="form-select mb-2" onchange="this.form.submit()">
+            <option value="">Seleccione tipo de Habitacion</option>
+            {% for t in tipos %}
+            <option value="{{t.Id_tipo}} {% if request.args.get('Tipo_habitacion')==(t.Id_Tipo|string) %}selected{% 
+            endif %}"> 
+            {{t.Nombre_tipo}}
+            </option>
+            {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <input type=date  name="fecha_ini"
+              value="{{ request.args.get('Fecha_ing', '')}}" onchange="this.form.submit()">
+          </div>
+          <div class="field">
+            <input type=date  name="fecha_fin"
+              value="{{ request.args.get('Fecha_sal', '')}}" onchange="this.form.submit()">
+          </div>
+        
+
+          <div class="field"><label for="sucursal">Sucursal</label>
+            <select name="estado_reserva" id="sucursal" class="form-select mb-2" onchange="this.form.submit()">
+            <option value="">Estado Reserva</option>
+            <option value="confirmada" {% if request.args.get('estado_reserva')=='confirmada'%}selected{%endif%}>
+              Confirmada</option>
+            <option value="pendiente" {% if request.args.get('estado_reserva')=='pendiente'%}selected{%endif%}>
+              pendiente</option>
+            </select>
+            </div>
+          
+
+
+        </form>
+    </div>
+
+
+<div style="overflow-x:auto;">
+  <table id="cliente"> 
+    <tr class="cliente">
+        <th class="nombre">ID</th>
+        <th class="nombre">Fecha Ingreso</th>
+        <th class="nombre">Fecha Salida</th>
+        <th class="nombre">Estado Reserva</th>
+        <th class="nombre">total</th>
+        <th class="nombre">Numero Documento</th>
+        <th class="nombre">Nombre</th>
+        <th class="nombre">Apellido</th>
+        <th class="nombre">Telefono</th>
+        <th class="nombre">Habitacion</th>
+        <th class="nombre">Tipo Habitacion</th>
+        <th class="nombre">Sucursal</th>
+        <th class="nombre">Direccion Sucursal</th>
+    </tr>
+    {% for res in reservas %}
+    <tr class="cliente">
+        <td class="datos">{{ res.Id_reserva}}</td>
+        <td class="datos">{{ res.Fecha_ing}}</td>
+        <td class="datos">{{ res.Fecha_sal}}</td>
+        <td class="datos">{{ res.Estado_reserva }}</td>
+        <td class="datos">{{ res.Total}}</td>
+        <td class="datos">{{ res.Numero_documento}}</td>
+        <td class="datos">{{ res.Nombre_cliente}}</td>
+        <td class="datos">{{ res.Apellido_Cliente}}</td>
+        <td class="datos">{{ res.Telefono_cliente}}</td>
+        <td class="datos">{{ res.Nombre_habitacion}}</td>
+        <td class="datos">{{ res.Nombre_tipo}}</td>
+        <td class="datos">{{ res.Nombre_sucursal}}</td>
+        <td class="datos">{{ res.Direccion_sucursal}}</td>
+    </tr>
+  {% else %}
+    <tr>
+        <td>No hay reservas</td>
+  {% endfor %}
+  </table>
+</div>
+
+    <nav id="menu">
+            <a href="{{ url_for('index')}}">Volver al inicio</a>
+        </nav>
+        <footer>
+    <div class="container foot-grid">
+      <div>
+        <a class="logo" href="#inicio">
+          <span class="logo-badge" aria-hidden="true"><img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia"></span>
+          Hotel JS
+        </a>
+        <p style="margin-top:10px;">© <span id="year"></span> Hotel JS. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <strong>Políticas</strong>
+        <p class="subtle">Cancelación flexible • Check‑in 24/7 • Pet‑friendly.</p>
+      </div>
+      <div>
+        <strong>Síguenos</strong>
+        <p class="subtle">Instagram • Facebook • TikTok</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

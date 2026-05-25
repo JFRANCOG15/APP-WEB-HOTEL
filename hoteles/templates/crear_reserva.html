@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <title>
+        Reservas
+    </title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+</head>
+<body>
+    <header>
+    <div class="container nav">
+      <a class="logo"  href="{{ url_for('index') }}" aria-label="Hotel JS">
+        <span class="logo-badge" aria-hidden="true">
+          <img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia">
+        </span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" aria-label="Abrir menú" />
+      <label for="nav-toggle" class="hamburger" aria-hidden="true"><span></span></label>
+
+      <div class="menu" role="navigation" aria-label="principal">
+        <a href="{{ url_for('crear_habitacion') }}">Crear Habitacion</a>
+        <a href="{{ url_for('listar_clientes')}}">Registro Clientes</a>
+        <a href="{{ url_for('Tipo_habitacion')}}">Tipo habitaciones</a>
+        <a href="{{ url_for('consultar_habitaciones')}}">Consultar habitaciones</a>
+        <a href="{{ url_for('listar_ciudades')}}">Ciudades</a>
+        <a href="{{ url_for('crear_sucursal')}}">Sucursales</a>
+        <a href="{{ url_for('crear_reserva')}}">Crear Reserva</a>
+        <a href="{{ url_for('crear_cliente')}}">Crear Cliente</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-primary">Cerrar Sesion</a>
+      </div>
+    </div>
+  </header>
+
+<h2>Crear Reserva</h2>
+ 
+<form method="post" class="card">
+    <label>Sucursal:</label>
+    <select name="sucursal" required>
+        {% for s in sucursales %}
+            <option value="{{ s.Id_sucursal }}">{{ s.Nombre_sucursal }}</option>
+        {% endfor %}
+    </select>
+ 
+    <label>Tipo de Habitación:</label>
+    <select name="tipo" required>
+        {% for t in tipos %}
+            <option value="{{ t.Id_tipo }}">{{ t.Nombre_tipo }}</option>
+        {% endfor %}
+    </select>
+ 
+    <label>Fecha Ingreso:</label>
+    <input type="date" name="fecha_ini" required>
+ 
+    <label>Fecha Salida:</label>
+    <input type="date" name="fecha_fin" required>
+ 
+    <button type="submit">Buscar Habitaciones</button>
+</form>
+ 
+{% if habitaciones %}
+<h3>Habitaciones Disponibles</h3>
+<div style="display:flex; flex-wrap:wrap; gap:20px;">
+    {% for h in habitaciones %}
+    <div style="border:1px solid #ccc; padding:15px; border-radius:10px; width:250px;">
+        <h4>{{ h.Nombre_habitacion }} - {{ h.Nombre_tipo }}</h4>
+        <p><strong>Sucursal:</strong> {{ h.Nombre_sucursal }}</p>
+        <p><strong>Capacidad:</strong> {{ h.capacidad }} personas</p>
+        <p><strong>Precio por noche:</strong> ${{ h.Precio }}</p>
+ 
+        <form method="post" class="card" action="{{ url_for('guardar_reserva') }}">
+            <input type="hidden" name="habitacion_id" value="{{ h.Id_habitacion }}">
+            <input type="hidden" name="fecha_ini" value="{{ request.form.get('fecha_ini') }}">
+            <input type="hidden" name="fecha_fin" value="{{ request.form.get('fecha_fin') }}">
+            <label>Documento Cliente:</label>
+            <input type="text" name="documento" required>
+            <button type="submit">Reservar</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <a class="logo" href="#inicio">
+          <span class="logo-badge" aria-hidden="true"><img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia"></span>
+          Hotel JS
+        </a>
+        <p style="margin-top:10px;">© <span id="year"></span> Hotel JS. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <strong>Políticas</strong>
+        <p class="subtle">Cancelación flexible • Check‑in 24/7 • Pet‑friendly.</p>
+      </div>
+      <div>
+        <strong>Síguenos</strong>
+        <p class="subtle">Instagram • Facebook • TikTok</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

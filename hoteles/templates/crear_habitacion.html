@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <title>
+        Hotel JS
+    </title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+</head>
+<body>
+    <header>
+    <div class="container nav">
+      <a class="logo"  href="{{ url_for('index') }}" aria-label="Hotel JS">
+        <span class="logo-badge" aria-hidden="true">
+          <img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia">
+        </span>	
+      </a>
+
+      <input type="checkbox" id="nav-toggle" aria-label="Abrir menú" />
+      <label for="nav-toggle" class="hamburger" aria-hidden="true"><span></span></label>
+
+      <div class="menu" role="navigation" aria-label="principal">
+        <a href="{{ url_for('crear_habitacion') }}">Crear Habitacion</a>
+        <a href="{{ url_for('listar_clientes')}}">Registro Clientes</a>
+        <a href="{{ url_for('Tipo_habitacion')}}">Tipo habitaciones</a>
+        <a href="{{ url_for('consultar_habitaciones')}}">Consultar habitaciones</a>
+        <a href="{{ url_for('listar_ciudades')}}">Ciudades</a>
+        <a href="{{ url_for('crear_sucursal')}}">Sucursales</a>
+        <a href="{{ url_for('consultar_reservas')}}">Reservas</a>
+        <a href="{{ url_for('crear_cliente')}}">Crear Cliente</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-primary">Cerrar Sesion</a>
+      </div>
+    </div>
+  </header>
+    <h1>Crear Habitación</h1>
+
+
+    <div class="grid" style="grid-template-columns: 1.2fr .8fr;">
+          <form method="post" class="card" action="#" aria-label="Formulario de contacto">
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap:12px;">
+              <div class="field"><label for="nombre_hab">Nombre Habitacion</label><input id="nombre_hab" type="text" name="nombre_hab" placeholder="Nombre Habitacion" required /></div>
+              <div class="field"><label for="telefono">Telefono Habitacion</label><input id="telefono" type="text" name="telefono" placeholder="telefono" required /></div>
+            </div>
+              <div class="field"><label for="tipo_id">Tipo Habitacion</label>
+                <select id="tipo_id" required>
+                  <option value="">Seleccione tipo habitacion</option>
+                     {% for tipo_habitacion in tipo_habitacion %}
+                <option value="{{tipo_habitacion.Id_tipo}}">{{tipo_habitacion.Nombre_tipo}}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="field"><label for="sucursal_id">Sucursal</label>
+                <select id="sucursal_id" required>
+                  <option value="">Seleccione una sucursal</option>
+                    {% for sucursales in sucursales %}
+                 <option value="{{sucursales.Id_sucursal}}">{{sucursales.Nombre_sucursal}}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              <button class="btn btn-primary" type="submit">Crear Habitacion</button>
+            </div>
+          </form>
+          
+        <nav id="menu">
+            <a href="{{ url_for('index')}}">Volver al inicio</a>
+        </nav>
+        <footer>
+    <div class="container foot-grid">
+      <div>
+        <a class="logo" href="#inicio">
+          <span class="logo-badge" aria-hidden="true"><img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia"></span>
+          Hotel JS
+        </a>
+        <p style="margin-top:10px;">© <span id="year"></span> Hotel JS. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <strong>Políticas</strong>
+        <p class="subtle">Cancelación flexible • Check‑in 24/7 • Pet‑friendly.</p>
+      </div>
+      <div>
+        <strong>Síguenos</strong>
+        <p class="subtle">Instagram • Facebook • TikTok</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

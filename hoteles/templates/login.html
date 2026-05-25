@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <title>
+        Reservas
+    </title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+</head>
+<body>
+    <h2>Iniciar sesion</h2>
+
+    {% if messahes %}
+      {%for categoty, message in message%}
+        <div class="alert alert-{{categoty}}">{{message}}</div>
+        {% endfor %}
+    {%endif%}
+
+<div class="grid" style="grid-template-columns: 1.2fr .8fr;">
+    <form method="post" action="{{url_for('login')}}" class="card">
+        <div class="field">
+          <label for="documento" class="form-label">Documento</lbael>
+            <input type="text" class="form-control" id="documento" name="documento" required>
+          </div>
+
+          <div class="field">
+          <label for="clave" class="form-label">Clave</lbael>
+            <input type="pasword" class="form-control" id="clave" name="clave" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </form>
+  </div>
+
+    <footer>
+    <div class="container foot-grid">
+      <div>
+        <a class="logo" href="#inicio">
+          <span class="logo-badge" aria-hidden="true"><img id="logo" src="static/logo.jpg" width="40" height="40" alt="Tu mejor experiencia"></span>
+          Hotel JS
+        </a>
+        <p style="margin-top:10px;">© <span id="year"></span> Hotel JS. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <strong>Políticas</strong>
+        <p class="subtle">Cancelación flexible • Check‑in 24/7 • Pet‑friendly.</p>
+      </div>
+      <div>
+        <strong>Síguenos</strong>
+        <p class="subtle">Instagram • Facebook • TikTok</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
